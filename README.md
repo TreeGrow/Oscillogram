@@ -14,7 +14,7 @@
 	}
   
   	dependencies {
-	        implementation 'com.github.lxc777:Oscillogram:1.0'
+	        implementation 'com.github.lxc777:Oscillogram:1.1'
 	}
   
   
