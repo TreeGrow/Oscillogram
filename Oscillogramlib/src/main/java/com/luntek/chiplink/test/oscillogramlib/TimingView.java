@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -20,9 +21,9 @@ public class TimingView extends View {
     //线路的名称
     public List<ItemBean> item = new ArrayList<>();
     //单位长度
-    private int length = 10;
+    private float length = 10f;
     //默认行距
-    private int rowledge = 50;
+    private float rowledge = 50f;
     //获取画布大小
     private float width = 0;
     private float height = 0;
@@ -43,6 +44,9 @@ public class TimingView extends View {
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.FILL);
         paint.setTextSize(txtSize);
+        paint.setStrokeWidth(3);
+        paint.setFakeBoldText(true); //true为粗体，false为非粗体
+        paint.setAntiAlias(true);
         invalidate();
     }
 
@@ -67,17 +71,17 @@ public class TimingView extends View {
         this.canvas = canvas;
         this.width = getWidth();
         this.height = getHeight();
-        rowledge = (int) (height / (item.size() + 1));
-        length = (int) ((width - XOffset - 150) / 35);
+        rowledge =  (height / (item.size() + 1));
+        length =  ((width - XOffset - 150) / 35);
         canvas.drawColor(Color.WHITE);
         for (int a = 0; a < item.size(); a++) {
-            int y = (a + 1) * rowledge;
-            canvas.drawText(item.get(a).getName(), XOffset, y, paint);
+            canvas.drawText(item.get(a).getName(), XOffset, (a + 1) * rowledge, paint);
+            float y = (a + 1) * rowledge-txtSize/2;
             byte[] items = item.get(a).array;
             int c = items.length;
             for (int i = 0; i < c; i++) {
                 //x坐标
-                int x = XOffset + 150 + i * length;
+                float x = XOffset + 150 + i * length;
                 switch (items[i]) {
                     case 0:
                         drawL(x, y + length / 2);
@@ -118,14 +122,14 @@ public class TimingView extends View {
     /**
      * 绘制高电平  1
      */
-    public void drawH(int x, int y) {
+    public void drawH(float x, float y) {
         canvas.drawLine(x, y, x + length, y, paint);
     }
 
     /**
      * 绘制低电平  0
      */
-    public void drawL(int x, int y) {
+    public void drawL(float x, float y) {
         canvas.drawLine(x, y, x + length, y, paint);
     }
 
@@ -134,7 +138,7 @@ public class TimingView extends View {
      *
      * @param f 判断是虚线还是直线 false 为虚线
      */
-    public void drawLine(int x, int y, boolean f) {
+    public void drawLine(float x, float y, boolean f) {
         if (f) {
             canvas.drawLine(x, y - length / 2, x, y + length / 2, paint);
         } else {
@@ -146,7 +150,7 @@ public class TimingView extends View {
     /**
      * 绘制虚线 3
      */
-    public void drawDummyLine(int x, int y) {
+    public void drawDummyLine(float x, float y) {
         canvas.drawLine(x, y, x + length / 4 * 3 - 7.5f, y, paint);
         canvas.drawLine(x + length / 4 * 3 + 7.5f, y, x + length, y, paint);
     }
@@ -154,8 +158,8 @@ public class TimingView extends View {
     /**
      * 绘制高阻 4
      */
-    public void drawHRES(int x, int y) {
-        int F2 = length / 2;
+    public void drawHRES(float x, float y) {
+        float F2 = length / 2;
         //加个阴影
         paint.setColor(Color.GRAY);
         canvas.drawRect(x,y - F2,x + length,y + F2,paint);
@@ -193,16 +197,16 @@ public class TimingView extends View {
      *
      * @param length 单位长度
      */
-    public void setLength(int length) {
+    public void setLength(float length) {
         this.length = length;
     }
 
-    public int getLength() {
+    public float getLength() {
         return length;
     }
 
 
-    public int getXOffset() {
+    public float getXOffset() {
         return XOffset;
     }
 

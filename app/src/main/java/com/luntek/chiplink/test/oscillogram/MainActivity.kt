@@ -1,16 +1,13 @@
 package com.luntek.chiplink.test.oscillogram
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.WindowManager
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.luntek.chiplink.test.oscillogramlib.ItemBean
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
-    var t1 = byteArrayOf(
+    private val SRCLK = byteArrayOf(
         0,
         1,
         0,
@@ -44,8 +41,8 @@ class MainActivity : AppCompatActivity() {
         0,
         1,
         0
-    );
-    var t2 = byteArrayOf(
+    )
+    private val SER = byteArrayOf(
         0,
         0,
         1,
@@ -79,8 +76,8 @@ class MainActivity : AppCompatActivity() {
         0,
         0,
         0
-    );
-    var t3 = byteArrayOf(
+    )
+    private val RCLK = byteArrayOf(
         0,
         0,
         0,
@@ -114,8 +111,8 @@ class MainActivity : AppCompatActivity() {
         1,
         0,
         0
-    );
-    var t4 = byteArrayOf(
+    )
+    private val SRCLR = byteArrayOf(
         0,
         0,
         1,
@@ -149,8 +146,8 @@ class MainActivity : AppCompatActivity() {
         0,
         1,
         1
-    );
-    var t5 = byteArrayOf(
+    )
+    private val OE = byteArrayOf(
         0,
         0,
         0,
@@ -184,42 +181,38 @@ class MainActivity : AppCompatActivity() {
         0,
         0,
         0
-    );
-    var t6 = byteArrayOf(
-        3,
-        3,
-        3,
-        3,
-        3,
-        3,
-        3,
-        0,
-        0,
-        4,
-        4,
-        4,
-        4,
-        4,
-        4,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
-    );
+    )
+    private val QA = ByteArray(33)
+    private val QB = ByteArray(33)
+    private val QC = ByteArray(33)
+    private val QD = ByteArray(33)
+    private val QE = ByteArray(33)
+    private val QF = ByteArray(33)
+    private val QG = ByteArray(33)
+    private val QH1 = ByteArray(33)
+    private val QH2 = ByteArray(33)
+    private val info = arrayOf(
+        "SRCLK",
+        "SER",
+        "RCLK",
+        "SRCLR",
+        "OE",
+        "QA",
+        "QB",
+        "QC",
+        "QD",
+        "QE",
+        "QF",
+        "QG",
+        "QH",
+        "QH'"
+    )
+    private val item = arrayOf(SRCLK, SER, RCLK, SRCLR, OE, QA, QB, QC, QD, QE, QF, QG, QH1, QH2)
+    private val test = Array(9) {
+        ByteArray(
+            33
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -227,33 +220,17 @@ class MainActivity : AppCompatActivity() {
 
         //去掉最上面时间、电量等
         val itemList: MutableList<ItemBean> = ArrayList()
-        var item = ItemBean()
-        item.array = t1
-        item.name = "SRCLK"
-        itemList.add(item)
-        item = ItemBean()
-        item.array = t2
-        item.name = "SER"
-        itemList.add(item)
-        item = ItemBean()
-        item.array = t3
-        item.name = "RCLK"
-        itemList.add(item)
-        item = ItemBean()
-        item.array = t4
-        item.name = "SRCLR"
-        itemList.add(item)
-        item = ItemBean()
-        item.array = t5
-        item.name = "OE"
-        itemList.add(item)
-        item = ItemBean()
-        item.array = t6
-        item.name = "QA"
-        itemList.add(item)
-
+        for (a in 0..13) {
+            if (a < 5) {
+                val itemBean = ItemBean(info[a], item[a])
+                itemList.add(itemBean)
+            } else {
+                val itemBean = ItemBean(info[a], test[a - 5])
+                itemList.add(itemBean)
+            }
+        }
+        timing.setTxtSize(30);
         timing.timingView(itemList)
-        timing.txtSize=35;
 
 
 
