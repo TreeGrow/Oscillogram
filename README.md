@@ -1,5 +1,5 @@
 # Oscillogram
-#时序图
+时序图
 
 [![Oscillogram](https://jitpack.io/v/lxc777/Oscillogram.svg)](https://jitpack.io/#lxc777/Oscillogram)
 
