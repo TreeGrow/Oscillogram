@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             val itemBean = ItemBean(element.name, results)
             itemList2.add(itemBean)
         }
-        test.setTimingViews(itemList, itemList2)
+        timing.setTimingList(itemList, itemList2)
 
     }
 

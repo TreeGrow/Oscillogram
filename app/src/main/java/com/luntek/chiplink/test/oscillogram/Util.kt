@@ -50,6 +50,7 @@ object Util {
         return stringBuilder.toString()
     }
 
+
     /**
      * 没细化到具体view，只测试使用。
      */
